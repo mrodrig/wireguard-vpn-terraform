@@ -1,0 +1,5 @@
+.env
+*.tfstate*
+.terraform
+.terraform.lock*
+scripts/*.json
