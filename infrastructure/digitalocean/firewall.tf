@@ -6,11 +6,11 @@ resource "digitalocean_firewall" "main" {
   ]
 
   # the following rule is only needed if we need to manually connect to the droplet via the DO web console
-  dynamic "allow_ssh_access" {
+  dynamic "inbound_rule" {
     # If SSH access is allowed, then the inbound_rule block will be run once, otherwise it will not be executed meaning that no rule allowing SSH access will be added to the firewall resource
     for_each = local.ALLOW_SSH_ACCESS ? [1] : []
 
-    inbound_rule {
+    content {
       protocol         = "tcp"
       port_range       = "22" # ssh
       source_addresses = ["0.0.0.0/0", "::/0"]
