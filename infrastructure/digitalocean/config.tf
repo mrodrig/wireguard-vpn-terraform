@@ -1,7 +1,4 @@
 locals {
-  ssh_pub_key  = file("~/.ssh/id_ed25519.pub")
-  ssh_priv_key = file("~/.ssh/id_ed25519")
-
   nonroot_user_name = "terraform_user"
 
   wg_cidr_range    = "10.180.200.1/24"
@@ -29,9 +26,17 @@ terraform {
       source  = "tenstad/remote"
       version = "0.1.2"
     }
+    tls = {
+      source  = "hashicorp/tls"
+      version = "4.0.5"
+    }
   }
 }
 
 provider "digitalocean" {}
 
 provider "random" {}
+
+provider "remote" {}
+
+provider "tls" {}

@@ -1,8 +1,3 @@
-resource "digitalocean_ssh_key" "default" {
-  name       = "Development SSH Key"
-  public_key = local.ssh_pub_key
-}
-
 resource "digitalocean_droplet" "server" {
   name          = "wg-server"
   image         = "ubuntu-22-04-x64"
@@ -16,7 +11,7 @@ resource "digitalocean_droplet" "server" {
   connection {
     type        = "ssh"
     user        = "root"
-    private_key = local.ssh_priv_key
+    private_key = tls_private_key.ssh.private_key_openssh
     host        = self.ipv4_address
   }
 
@@ -105,7 +100,7 @@ resource "digitalocean_droplet" "server" {
 data "remote_file" "config" {
   conn {
     user        = "root"
-    private_key = local.ssh_priv_key
+    private_key = tls_private_key.ssh.private_key_openssh
     host        = digitalocean_droplet.server.ipv4_address
     sudo        = true
   }
